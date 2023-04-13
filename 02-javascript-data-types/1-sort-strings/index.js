@@ -6,7 +6,8 @@
  */
 export function sortStrings(arr, param) {
 
-  const sortedArray = arr.slice(0).sort((a, b) => a.localeCompare(b, 'ru-RU-u-kf-upper', { sensitivity: 'case' }));
+  const sortedArray = arr.slice(0).sort((a, b) =>
+    a.localeCompare(b, 'ru-RU-u-kf-upper', { sensitivity: 'case' }));
 
   if (param === 'desc') {
     return sortedArray.reverse();
