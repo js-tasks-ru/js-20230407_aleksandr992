@@ -5,8 +5,8 @@
  */
 
 export function createGetter(path) {
+  const searchLevels = path.split('.');
   return function(obj) {
-    const searchLevels = path.split('.');
     let jar = obj;
     for (const searchLevel of searchLevels) {
       if (typeof jar === 'undefined') {
