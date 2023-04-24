@@ -8,12 +8,11 @@ export function createGetter(path) {
   return function(obj) {
     const searchLevels = path.split('.');
     let jar = obj;
-    for (let searchLevel in searchLevels) {
-      if (typeof jar[searchLevels[searchLevel]] === 'undefined') {
-        jar = undefined;
+    for (const searchLevel of searchLevels) {
+      if (typeof jar === 'undefined') {
         break;
       }
-      jar = jar[searchLevels[searchLevel]];
+      jar = jar[searchLevel];
     }
     return jar;
   };

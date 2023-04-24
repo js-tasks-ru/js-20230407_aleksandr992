@@ -8,6 +8,6 @@ export function invertObj(obj) {
   if (typeof obj !== 'undefined') {
     return Object.fromEntries(Object.entries(obj).map(([key, value]) => [value, key]));
   } else {
-    return undefined;
+    return obj;
   }
 }
