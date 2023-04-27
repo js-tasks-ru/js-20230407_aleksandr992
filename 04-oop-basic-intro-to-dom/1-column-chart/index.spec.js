@@ -118,15 +118,3 @@ describe('oop-basic-intro-to-dom/column-chart', () => {
     expect(columnChart.element).not.toBeInTheDocument();
   });
 });
-
-function getColumnProps(data) {
-  const maxValue = Math.max(...data);
-  const scale = 50 / maxValue;
-
-  return data.map(item => {
-    return {
-      percent: (item / maxValue * 100).toFixed(0) + '%',
-      value: String(Math.floor(item * scale))
-    };
-  });
-}

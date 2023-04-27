@@ -24,21 +24,25 @@
         data: ordersData,
         label: 'orders',
         value: 344,
-        link: '#'
+        link: '#',
       });
 
       const salesChart = new ColumnChart({
         data: salesData,
         label: 'sales',
         value: 243437,
-        formatHeading: data => `$${data}`
+        formatHeading: data => `$${data}`,
       });
 
       const customersChart = new ColumnChart({
         data: customersData,
         label: 'customers',
-        value: 321
+        value: 321,
       });
+
+      const orders = document.querySelector('#orders');
+      const sales = document.querySelector('#sales');
+      const customers = document.querySelector('#customers');
 
       orders.append(ordersChart.element);
       sales.append(salesChart.element);
