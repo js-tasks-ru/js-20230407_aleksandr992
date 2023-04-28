@@ -8,7 +8,7 @@ export default class ColumnChart {
     label = '',
     value = 0,
     link = '',
-    formatHeading
+    formatHeading = data => data,
   }) {
     value = value.toLocaleString('en-EN');
     this.data = data;
@@ -48,7 +48,7 @@ export default class ColumnChart {
 
   getColumnProps(data) {
     const maxValue = Math.max(...data);
-    const scale = 50 / maxValue;
+    const scale = this.chartHeight / maxValue;
     return data.map(item => {
       return {
         percent: (item / maxValue * 100).toFixed(0) + '%',
