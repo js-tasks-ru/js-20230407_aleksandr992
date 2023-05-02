@@ -21,11 +21,7 @@
         type: 'error'
       }
     );
-    if (typeof NotificationMessage.currentNotification === 'object') {
-      NotificationMessage.currentNotification.remove();
-    }
     notification.show();
-    NotificationMessage.currentNotification = notification;
   });
 
 </script>

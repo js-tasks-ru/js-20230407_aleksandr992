@@ -3,7 +3,7 @@ export default class NotificationMessage {
   static currentNotification;
 
   element;
-  subElements;
+  timer;
   document;
 
   constructor(
@@ -43,24 +43,28 @@ export default class NotificationMessage {
     return this.document.body.querySelector(elementId);
   }
 
-  removeTimer() {
-    setTimeout(() => {
+  decayTimer() {
+    this.timer = setTimeout(() => {
       this.remove();
     }, this.duration);
   }
 
   show() {
+    if (typeof NotificationMessage.currentNotification === 'object') {
+      NotificationMessage.currentNotification.remove();
+    }
     this.getBodyElement('#btn1').after(this.element);
-    this.removeTimer();
+    this.decayTimer();
+    NotificationMessage.currentNotification = this;
   }
 
   destroy() {
     this.remove();
     this.element = null;
-    this.subElements = {};
   }
 
   remove () {
+    clearTimeout(this.timer);
     this.element.remove();
   }
 
