@@ -53,7 +53,7 @@ export default class SortableTable {
 
   getTableHeaderCell({id, title, sortable}) {
     return `
-      <div class="sortable-table__cell" data-id="${id}" data-sortable="${sortable}" data-order="asc">
+      <div class="sortable-table__cell" data-id="${id}" data-sortable="${sortable}">
         <span>${title}</span>
         <span data-element="arrow" class="sortable-table__sort-arrow">
           <span class="sort-arrow"></span>
@@ -104,17 +104,17 @@ export default class SortableTable {
     `;
   }
 
-  sort(fieldValue, orderValue = 'asc') {
+  sort(fieldValue, orderDirection = 'asc') {
 
     const directions = {
       asc: 1,
       desc: -1,
     };
 
-    const direction = directions[orderValue];
+    const direction = directions[orderDirection];
 
     if (!direction) {
-      throw new Error(`Wrong param: ${orderValue}`);
+      throw new Error(`Wrong param: ${orderDirection}`);
     }
 
     if (this.data.length !== 0 && this.headerConfig) {
@@ -129,6 +129,12 @@ export default class SortableTable {
         }
       });
     }
+
+    const allFields = this.element.querySelectorAll('.sortable-table__cell[data-id]');
+    const currentField = this.element.querySelector(`.sortable-table__cell[data-id="${fieldValue}"]`);
+
+    allFields.forEach((field) => field.dataset.order = '');
+    currentField.dataset.order = orderDirection;
 
     this.subElements.body.innerHTML = this.getTableRows();
   }
