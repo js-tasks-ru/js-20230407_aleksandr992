@@ -3,19 +3,25 @@
 
 <head>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Notification</title>
 </head>
 
-<button id="btn1">Show simple message!</button>
+<body>
+  <button id="btn1">Show simple message!</button>
+</body>
 
 <script type="module">
   import NotificationMessage from './index.js';
 
   btn1.addEventListener('click', () => {
-    const notification = new NotificationMessage('Hello World', {
-      duration: 2000,
-      type: 'success'
-    });
-
+    const notification = new NotificationMessage(
+      {
+        message: 'Yo! '+Math.random().toFixed(5),
+        duration: 2000,
+        type: 'error'
+      }
+    );
     notification.show();
   });
+
 </script>

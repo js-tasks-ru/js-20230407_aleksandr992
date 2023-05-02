@@ -2,6 +2,11 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .sortable-table__row {
+      grid: auto-flow / 80px calc(50% - 80px) 25% 20% 20%;
+    }
+  </style>
 </head>
 <body>
 
@@ -69,14 +74,13 @@
     },
   ];
 
-  const sortableTable = new SortableTable(headerConfig, data);
+  const sortableTable = new SortableTable({headerConfig, data});
 
   root.append(sortableTable.element);
 
   sort.addEventListener('click', () => {
     const fieldValue = field.value;
     const orderValue = order.value;
-
     sortableTable.sort(fieldValue, orderValue);
   });
 </script>
