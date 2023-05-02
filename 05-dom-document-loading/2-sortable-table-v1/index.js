@@ -153,4 +153,16 @@ export default class SortableTable {
     this.element = element.firstElementChild;
     this.subElements = this.getSubElements(this.element);
   }
+
+  destroy() {
+    this.remove();
+    this.element = null;
+    this.subElements = null;
+  }
+
+  remove () {
+    if (this.element) {
+      this.element.remove();
+    }
+  }
 }
