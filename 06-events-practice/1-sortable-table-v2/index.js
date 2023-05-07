@@ -18,6 +18,7 @@ export default class SortableTable {
 
     this.render();
     this.sort(sorted.id, sorted.order);
+    this.init();
   }
 
   getFieldSortTypes() {
@@ -159,6 +160,29 @@ export default class SortableTable {
     element.innerHTML = this.template;
     this.element = element.firstElementChild;
     this.subElements = this.getSubElements(this.element);
+  }
+
+  init() {
+    sort.addEventListener('click', () => {
+      const fieldValue = field.value;
+      const orderValue = order.value;
+      this.sort(fieldValue, orderValue);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const sortableHeaderCells = this.element.querySelectorAll('.sortable-table__cell[data-sortable="true"]');
+      sortableHeaderCells.forEach(element => {
+        element.addEventListener('pointerup', () => {
+          let order = element.dataset.order;
+          if (order === 'asc') {
+            order = 'desc';
+          } else {
+            order = 'asc';
+          }
+          this.sort(element.dataset.id, order);
+        });
+      });
+    });
   }
 
   destroy() {

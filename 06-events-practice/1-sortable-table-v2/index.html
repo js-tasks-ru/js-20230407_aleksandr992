@@ -84,28 +84,5 @@
 
   root.append(sortableTable.element);
 
-  sort.addEventListener('click', () => {
-    const fieldValue = field.value;
-    const orderValue = order.value;
-    sortableTable.sort(fieldValue, orderValue);
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const sortableHeaderCells = sortableTable.element.querySelectorAll('.sortable-table__cell[data-sortable="true"]');
-    sortableHeaderCells.forEach(element => {
-      element.addEventListener('pointerup', () => {
-        let order = element.dataset.order;
-        if (order === 'asc') {
-          order = 'desc';
-        } else {
-          order = 'asc';
-        }
-        sortableTable.sort(element.dataset.id, order);
-      });
-    });
-  });
-
-
-
 </script>
 </body>

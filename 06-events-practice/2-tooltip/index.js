@@ -2,6 +2,8 @@ class Tooltip {
 
   static currentTooltip;
 
+  cursorOffset = 16;
+
   constructor() {
     if (Tooltip.currentTooltip) {
       return Tooltip.currentTooltip;
@@ -16,37 +18,39 @@ class Tooltip {
   }
 
   show() {
-    if (typeof Tooltip.currentTooltip === 'object') {
-      Tooltip.currentTooltip.remove();
-    }
     document.body.append(this.element);
-    Tooltip.currentTooltip = this;
   }
 
   initialize () {
 
     this.render();
 
-    const moveTooltip = (event) => {
+    const pointerMove = event => {
       if (event.target.dataset.tooltip !== undefined) {
-        this.element.style.setProperty('--mouse-x', event.clientX + 16 + 'px');
-        this.element.style.setProperty('--mouse-y', event.clientY + 16 + 'px');
+        this.element.style.setProperty('--mouse-x', event.clientX + this.cursorOffset + 'px');
+        this.element.style.setProperty('--mouse-y', event.clientY + this.cursorOffset + 'px');
+      }
+    };
+
+    const pointerOver = event => {
+      if (event.target.dataset.tooltip !== undefined) {
+        this.element.innerHTML = event.target.dataset.tooltip;
+        document.addEventListener('pointerout', pointerOut);
+        document.addEventListener('pointermove', pointerMove);
+        this.show();
+      }
+    };
+
+    const pointerOut = event => {
+      if (event.target.dataset.tooltip !== undefined) {
+        this.remove();
+        document.removeEventListener('pointermove', pointerMove);
+        document.removeEventListener('pointerout', pointerOut);
       }
     };
 
     document.addEventListener('pointerover', (event) => {
-      if (event.target.dataset.tooltip !== undefined) {
-        this.element.innerHTML = event.target.dataset.tooltip;
-        document.addEventListener('pointermove', moveTooltip);
-        this.show();
-      }
-    });
-
-    document.addEventListener('pointerout', (event) => {
-      if (event.target.dataset.tooltip !== undefined) {
-        this.remove();
-        document.removeEventListener('pointermove', moveTooltip);
-      }
+      pointerOver(event);
     });
 
   }
