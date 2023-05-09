@@ -2,8 +2,32 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .sortable-table__row {
+      grid: auto-flow / 80px calc(50% - 80px) 25% 20% 20%;
+    }
+  </style>
 </head>
 <body>
+
+<div>
+  <div>
+    <select id="field">
+      <option selected value="title">title</option>
+      <option value="quantity">quantity</option>
+      <option value="price">price</option>
+      <option value="sales">sales</option>
+    </select>
+  </div>
+  <div>
+    <select id="order">
+      <option selected value="asc">asc</option>
+      <option value="desc">desc</option>
+    </select>
+  </div>
+
+  <button id="sort">Sort</button>
+</div>
 
 <div id="root"></div>
 
@@ -19,7 +43,7 @@
       template: (data = []) => {
         return `
           <div class="sortable-table__cell">
-            <img class="sortable-table-image" alt="Image" src="${data[0]?.url}">
+            <img class="sortable-table-image" alt="Image" src="https://via.placeholder.com/32">
           </div>
         `;
       }
@@ -40,7 +64,7 @@
       id: 'price',
       title: 'Price',
       sortable: true,
-      sortType: 'number'
+      sortType: 'number',
     },
     {
       id: 'sales',
@@ -59,5 +83,6 @@
   });
 
   root.append(sortableTable.element);
+
 </script>
 </body>
