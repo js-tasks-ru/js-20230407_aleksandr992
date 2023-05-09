@@ -48,7 +48,9 @@
       });
 
       loadOrders.addEventListener('click', () => {
-        ordersChart.update(new Date(start.value), new Date(end.value))
+        ordersChart.update(new Date(start.value), new Date(end.value));
+        salesChart.update(new Date(start.value), new Date(end.value));
+        customersChart.update(new Date(start.value), new Date(end.value));
       });
 
       const salesChart = new ColumnChart({
