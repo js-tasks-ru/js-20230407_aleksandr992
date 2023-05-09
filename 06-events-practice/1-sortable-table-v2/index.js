@@ -15,7 +15,6 @@ export default class SortableTable {
     this.sortedData = this.data;
     this.getFieldSortTypes();
     this.getFieldTemplates();
-
     this.render();
     this.sort(sorted.id, sorted.order);
     this.init();
@@ -48,9 +47,7 @@ export default class SortableTable {
   getTableHeader() {
     return `
       <div data-element="header" class="sortable-table__header sortable-table__row">
-        ${this.headerConfig.map(column => {
-      return this.getTableHeaderCell(column);
-    }).join('')}
+        ${this.headerConfig.map(column => this.getTableHeaderCell(column)).join('')}
       </div>
     `;
   }
@@ -84,11 +81,11 @@ export default class SortableTable {
     return `
       <a href="/products/${row.id}" class="sortable-table__row">
         ${this.headerConfig.map(column => {
-      if (typeof this.fieldTemplates[column.id] === 'function') {
-        return this.fieldTemplates[column.id](row[column.id]);
-      }
-      return this.getTableCell(row[column.id]);
-    }).join('')}
+          if (typeof this.fieldTemplates[column.id] === 'function') {
+            return this.fieldTemplates[column.id](row[column.id]);
+          }
+          return this.getTableCell(row[column.id]);
+        }).join('')}
       </a>
     `;
   }
@@ -124,11 +121,16 @@ export default class SortableTable {
       this.sortedData = [...this.data].sort((a, b) => {
         const keyA = a[fieldValue] || a;
         const keyB = b[fieldValue] || b;
-        if (this.fieldSortTypes[fieldValue] === 'string') {
-          return direction * keyA.localeCompare(keyB, 'ru-RU-u-kf-upper', {sensitivity: 'case'});
-        }
-        if (this.fieldSortTypes[fieldValue] === 'number') {
+
+        switch (this.fieldSortTypes[fieldValue]) {
+        case 'number':
           return direction * (keyA - keyB);
+        case 'string':
+          return direction * keyA.localeCompare(keyB, 'ru-RU-u-kf-upper', {sensitivity: 'case'});
+        case 'custom':
+          return direction * customSorting(keyA, keyB);
+        default:
+          throw new Error(`Неизвестный тип сортировки: ${this.fieldSortTypes[fieldValue]}`);
         }
       });
     }
@@ -169,7 +171,7 @@ export default class SortableTable {
       this.sort(fieldValue, orderValue);
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const sortableHeaderCells = this.element.querySelectorAll('.sortable-table__cell[data-sortable="true"]');
       sortableHeaderCells.forEach(element => {
         element.addEventListener('pointerup', () => {
@@ -191,7 +193,7 @@ export default class SortableTable {
     this.subElements = null;
   }
 
-  remove () {
+  remove() {
     if (this.element) {
       this.element.remove();
     }
